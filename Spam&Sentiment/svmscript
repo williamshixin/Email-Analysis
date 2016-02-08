@@ -1,0 +1,29 @@
+#! /bin/bash
+echo 'create spam index dict...'
+python3 svm_format_word_index_dict.py SPAM_training index_dict.svm 
+echo 'formating SPAM_training...'
+python3 svm_format.py SPAM_training spam.svm.format 
+echo 'formating SPAM_test...'
+python3 svm_format.py SPAM_test spam.test.svm.format
+echo 'calling svm_learn...'
+./svm_learn spam.svm.format spam.svm.model
+echo 'calling svm_classify...'
+./svm_classify spam.test.svm.format spam.svm.model spam.svm.output
+echo 'postprocess spam results...'
+python3 svm_postprocess.py spam.svm.output spam.svm.out
+
+
+
+echo 'create sentiment index dict...'
+python3 svm_format_word_index_dict.py SENTIMENT_training index_dict.svm
+echo 'formating SENTIMENT_training'
+python3 svm_format.py SENTIMENT_training sentiment.svm.format
+echo 'formating SPENTIMENT_test...'
+python3 svm_format.py SENTIMENT_test sentiment.test.svm.format
+echo 'calling svm_learn...'
+./svm_learn sentiment.svm.format sentiment.svm.model
+echo 'calling svm_classify...'
+./svm_classify sentiment.test.svm.format sentiment.svm.model sentiment.svm.output
+echo 'postprocess sentiment results'
+python3 svm_postprocess.py sentiment.svm.output sentiment.svm.out
+

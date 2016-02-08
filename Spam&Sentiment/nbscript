@@ -1,0 +1,16 @@
+#! /bin/bash
+echo 'formating SPAM_training...'
+python3 nbformat.py SPAM_training spam_training.txt
+echo 'learning spam.nb...'
+python3 nblearn.py spam_training.txt spam.nb
+echo 'classifying SPAM_test'
+python3 nbclassify.py spam.nb SPAM_test
+
+
+
+echo 'formating SENTIMENT_training'
+python3 nbformat.py SENTIMENT_training sentiment_training.txt
+echo 'learning sentiment.nb'
+python3 nblearn.py sentiment_training.txt sentiment.nb
+echo 'classifying SENTIMENT_test'
+python3 nbclassify.py sentiment.nb SENTIMENT_test

@@ -1,0 +1,22 @@
+#! /bin/bash
+echo 'formating SPAM_training...'
+python3 megam_format.py SPAM_training spam.megam.format
+echo 'formating SPAM_test...'
+python3 megam_format.py SPAM_test spam.megam.test.format
+echo 'learning...'
+./megam_0.92/megam.opt -fvals -nc multiclass spam.megam.format > spam.megam.model
+echo 'classifying...'
+./megam_0.92/megam.opt -predict  spam.megam.model multiclass spam.megam.test.format > spam.megam.output
+echo 'postprocessing results...'
+python3 megam_postprocess.py spam.megam.output spam.megam.out
+
+echo 'formating SENTIMENT_training...'
+python3 megam_format.py SENTIMENT_training sentiment.megam.format
+echo 'formating SENTIMENT_test'
+python3 megam_format.py SENTIMENT_test sentiment.megam.test.format
+echo 'learning...'
+./megam_0.92/megam.opt -fvals -nc multiclass sentiment.megam.format > sentiment.megam.model
+echo 'classifying...'
+./megam_0.92/megam.opt -predict sentiment.megam.model multiclass sentiment.megam.test.format > sentiment.megam.output
+echo 'postprocessing results...'
+python3 megam_postprocess.py sentiment.megam.output sentiment.megam.out
